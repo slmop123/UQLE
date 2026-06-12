@@ -1,0 +1,6 @@
+{
+  "name": "Universal Quranic Laws Engine",
+  "description": "محرك القوانين الكونية - محرك تفاعلي لاستنباط القوانين المنهجية والنفسية من القرآن الكريم لمعالجة القضايا المعاصرة",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

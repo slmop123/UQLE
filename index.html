@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>محرك القوانين الكونية | Universal Quranic Laws Engine</title>
+  
+  <!-- Fonts Integration (Cairo for headers, Amiri for Quranic verses, Inter for metrics) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Tailwind CSS Via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Tailwind Configuration styling -->
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Cairo', 'Inter', 'sans-serif'],
+            quran: ['Amiri', 'serif'],
+          },
+          colors: {
+            cosmic: {
+              void: '#0B0F17',
+              cyber: '#A855F7',
+              ocean: '#3B82F6',
+              emerald: '#10B981',
+              gold: '#F59E0B',
+              slate: 'rgba(15, 23, 42, 0.45)',
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Marked Markdown Parser CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+  <!-- Lucide Icons via Unpkg -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <!-- Custom Core Glassmorphic Style Rules -->
+  <style>
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0B0F17;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: rgba(168, 85, 247, 0.3);
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(168, 85, 247, 0.6);
+    }
+
+    /* Shifting Liquid Background Glows */
+    @keyframes shiftGlow1 {
+      0%, 100% { transform: translate(0px, 0px) scale(1); }
+      33% { transform: translate(40px, -60px) scale(1.15); }
+      66% { transform: translate(-30px, 40px) scale(0.9); }
+    }
+    @keyframes shiftGlow2 {
+      0%, 100% { transform: translate(0px, 0px) scale(1); }
+      50% { transform: translate(-50px, 50px) scale(1.2); }
+    }
+    @keyframes flowGradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .animate-glow-1 {
+      animation: shiftGlow1 15s ease-in-out infinite;
+    }
+    .animate-glow-2 {
+      animation: shiftGlow2 18s ease-in-out infinite;
+    }
+    .animate-flow-gradient {
+      background-size: 200% 200%;
+      animation: flowGradient 6s linear infinite;
+    }
+
+    /* Extreme Liquid Glass Effect */
+    .liquid-glass {
+      background: rgba(13, 19, 33, 0.65);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+    }
+    
+    .liquid-glass-card {
+      background: rgba(20, 27, 45, 0.5);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      box-shadow: 0 4px 24px 0 rgba(0, 0, 0, 0.25);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .liquid-glass-card:hover {
+      background: rgba(26, 36, 59, 0.65);
+      border-color: rgba(168, 85, 247, 0.25);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 30px 0 rgba(168, 85, 247, 0.1);
+    }
+
+    /* Customized Markdown typography formatting inside cards */
+    .markdown-rendered p {
+      margin-bottom: 0.9rem;
+      line-height: 1.8;
+      color: rgba(229, 231, 235, 0.95);
+      font-size: 0.975rem;
+    }
+    .markdown-rendered ul, .markdown-rendered ol {
+      margin-right: 1.5rem;
+      margin-bottom: 1rem;
+      color: rgba(229, 231, 235, 0.9);
+      list-style-type: decimal;
+    }
+    .markdown-rendered li {
+      margin-bottom: 0.6rem;
+      line-height: 1.7;
+      position: relative;
+    }
+    .markdown-rendered li::marker {
+      color: #A855F7;
+      font-weight: bold;
+    }
+    .markdown-rendered strong {
+      color: #ffffff;
+      font-weight: 700;
+      text-shadow: 0 0 8px rgba(168, 85, 247, 0.2);
+    }
+    
+    /* Uthmanic Quranic Verse Styling */
+    .quran-verse {
+      font-family: 'Amiri', serif;
+      font-size: 1.65rem;
+      line-height: 2.2;
+      color: #34D399; /* Emerald-400 */
+      text-shadow: 0 0 15px rgba(52, 211, 153, 0.25);
+      background: rgba(16, 185, 129, 0.05);
+      border-radius: 12px;
+      padding: 1rem 1.5rem;
+      border-right: 4px solid #10B981;
+    }
+  </style>
+</head>
+<body class="relative min-h-screen bg-cosmic-void text-gray-100 font-sans overflow-x-hidden antialiased">
+
+  <!-- Interactive Floating Canvas Background -->
+  <canvas id="letterCanvas" class="fixed inset-0 pointer-events-none z-10 w-full h-full opacity-60"></canvas>
+
+  <!-- Ambient Liquid Glow System -->
+  <div class="fixed inset-0 overflow-hidden pointer-events-none z-0">
+    <div class="absolute -top-48 -left-48 w-[450px] h-[450px] rounded-full bg-cosmic-cyber/15 blur-[160px] animate-glow-1"></div>
+    <div class="absolute -bottom-48 -right-48 w-[550px] h-[550px] rounded-full bg-cosmic-ocean/15 blur-[180px] animate-glow-2"></div>
+    <div class="absolute top-1/2 left-1/3 -translate-y-1/2 w-96 h-96 rounded-full bg-cosmic-emerald/5 blur-[140px] animate-glow-1"></div>
+  </div>
+
+  <!-- Primary Outer Wrapper -->
+  <div class="relative z-20 min-h-screen flex flex-col justify-between p-4 sm:p-6 lg:p-8">
+    
+    <!-- Navigation / Header -->
+    <header class="w-full max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 py-4 mb-4">
+      <div class="flex items-center gap-3">
+        <div class="p-3 rounded-2xl bg-gradient-to-tr from-cosmic-cyber/25 to-cosmic-ocean/25 backdrop-blur-md border border-white/10 shadow-[0_0_15px_rgba(168,85,247,0.2)]">
+          <i data-lucide="compass" class="w-8 h-8 text-cosmic-cyber animate-pulse"></i>
+        </div>
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-black tracking-tight text-transparent bg-clip-text bg-gradient-to-l from-white via-gray-200 to-purple-300">
+            محرك القوانين الكونية
+          </h1>
+          <p class="text-xs sm:text-sm font-light text-cosmic-ocean/80 tracking-widest leading-relaxed mt-0.5 uppercase">
+            Universal Quranic Laws Engine
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Action Badges / API Configuration trigger -->
+      <div class="flex items-center gap-3">
+        <button onclick="toggleConfigPanel()" class="flex items-center gap-2 text-xs sm:text-sm px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 hover:border-cosmic-cyber/50 transition-all duration-300 select-none cursor-pointer">
+          <i data-lucide="key" class="w-4 h-4 text-cosmic-cyber"></i>
+          <span>مفتاح السر العلمي (Gemini API)</span>
+          <span id="keyStatusBadge" class="w-2.5 h-2.5 rounded-full bg-gray-400"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Main Content Stage -->
+    <main class="w-full max-w-5xl mx-auto flex-grow flex flex-col items-center justify-center gap-8 py-4">
+
+      <!-- API Key Setting Glassmorphic Popup Panel (Saved to Local Storage) -->
+      <div id="configPanel" class="hidden w-full max-w-2xl liquid-glass p-6 sm:p-8 rounded-3xl relative z-50 mb-4 animate-fadeIn transition-all duration-300">
+        <button onclick="toggleConfigPanel()" class="absolute top-4 left-4 p-2 rounded-xl hover:bg-white/5 text-gray-400 hover:text-white transition cursor-pointer">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="p-2.5 rounded-xl bg-purple-500/20 border border-purple-500/40">
+            <i data-lucide="shield-alert" class="w-6 h-6 text-cosmic-cyber"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold">إعداد مفتاح Gemini API المجاني</h3>
+            <p class="text-xs text-gray-400 mt-1">يُخزَّن المفتاح محلياً بالمتصفح ولا يشارك أبداً مع أي خادم خارجي.</p>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div class="relative">
+            <label class="block text-xs font-semibold text-gray-400 mb-2 mr-1">أدخل مفتاح Gemini Free API الخاص بك:</label>
+            <div class="relative flex items-center">
+              <input id="apiKeyInput" type="password" placeholder="AIzaSy..." class="w-full p-4 pl-12 bg-slate-950/70 border border-white/10 rounded-2xl text-white font-mono text-sm tracking-widest focus:outline-none focus:ring-1 focus:ring-cosmic-cyber/50 focus:border-cosmic-cyber/50 transition-all">
+              <button onclick="toggleApiKeyVisibility()" class="absolute left-4 p-1.5 text-gray-500 hover:text-white transition cursor-pointer">
+                <i id="eyeIcon" data-lucide="eye" class="w-5 h-5"></i>
+              </button>
+            </div>
+          </div>
+          <div class="bg-purple-950/20 border border-purple-500/20 p-4 rounded-2xl text-xs space-y-2 leading-relaxed text-purple-200">
+            <p class="flex items-center gap-2">
+              <i data-lucide="info" class="w-4 h-4 text-cosmic-cyber flex-shrink-0"></i>
+              <span>كيف تحصل عليه مجاناً؟</span>
+            </p>
+            <p>1. قم بزيارة الرابط المباشر <a href="https://aistudio.google.com/api-keys" target="_blank" class="underline text-cosmic-ocean font-bold hover:text-white transition">لمفاتيح Gemini API في Google AI Studio</a> وسجل دخولك بجوجل.</p>
+            <p>2. انقر على زر <strong>"Get API Key"</strong> ثم انسخ المفتاح المتولد والصقه هنا لحفظه.</p>
+          </div>
+          <div class="flex justify-end gap-3 pt-2">
+            <button onclick="saveApiKey()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-cosmic-cyber to-cosmic-ocean text-white font-semibold text-sm hover:shadow-[0_0_15px_rgba(168,85,247,0.4)] transition cursor-pointer select-none">
+              حفظ وتوثيق المفتاح
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Problem Query Container -->
+      <section class="w-full liquid-glass p-6 sm:p-10 rounded-3xl flex flex-col gap-6 relative overflow-hidden">
+        
+        <div class="flex flex-col gap-2 relative z-10">
+          <h2 class="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-l from-white to-gray-400 flex items-center gap-2">
+            استشارة القوانين والسنن القرآنية الكبرى
+          </h2>
+          <p class="text-xs sm:text-sm text-gray-400 leading-relaxed max-w-3xl">
+            اطرح أي معضلة سلوكية، إدارية، عملية أو نفسية تواجهها في واقعك. سيقوم المحرك بتحليلها برمجياً وربطها بالمنهج السنني القرآني، مع توفير إسقاط قصصي نبوي وخارطة ميدانية لتطبيق الحل باحترافية.
+          </p>
+        </div>
+
+        <!-- Predefined Template Suggesters -->
+        <div class="space-y-2 relative z-10">
+          <p class="text-xs font-semibold text-gray-400 mr-1 flex items-center gap-1.5 select-none">
+            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-cosmic-gold animate-bounce"></i>
+            <span>نماذج جاهزة للاختبار السريع (اضغط للاختيار):</span>
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <button onclick="prefillQuery(this)" class="text-xs px-3.5 py-2 rounded-xl bg-white/5 border border-white/5 hover:border-cosmic-cyber/35 hover:bg-cosmic-cyber/5 transition duration-300 text-gray-300 hover:text-white cursor-pointer select-none">
+              خساره متكررة في مشروعي الناشئ وفقدان الثقة بالاستمرار
+            </button>
+            <button onclick="prefillQuery(this)" class="text-xs px-3.5 py-2 rounded-xl bg-white/5 border border-white/5 hover:border-cosmic-ocean/35 hover:bg-cosmic-ocean/5 transition duration-300 text-gray-300 hover:text-white cursor-pointer select-none">
+              الشعور الدائم بالضغط النفسي والقلق من المستقبل المجهول
+            </button>
+            <button onclick="prefillQuery(this)" class="text-xs px-3.5 py-2 rounded-xl bg-white/5 border border-white/5 hover:border-cosmic-emerald/35 hover:bg-cosmic-emerald/5 transition duration-300 text-gray-300 hover:text-white cursor-pointer select-none">
+              خلافات أسرية مستمرة وصعوبة بالغة في تحقيق التفاهم العائلي
+            </button>
+            <button onclick="prefillQuery(this)" class="text-xs px-3.5 py-2 rounded-xl bg-white/5 border border-white/5 hover:border-cosmic-gold/35 hover:bg-cosmic-gold/5 transition duration-300 text-gray-300 hover:text-white cursor-pointer select-none">
+              مواجهة عدواة من زملائي في العمل وتآمر مستمر ضدي
+            </button>
+          </div>
+        </div>
+
+        <!-- Query Input Element -->
+        <div class="relative z-10 w-full">
+          <textarea id="problemQuery" placeholder="اكتب هنا بالتفصيل معالم المشكلة التي تشغل بالك، مثل: 'أواجه تشتتاً مهنياً كبيراً وضائقة في إنجاز أهدافي الأسبوعية وأفقد العزيمة بسرعة شديدة، كيف أستثمر السنن القرآنية لتغيير ذلك؟'..." class="w-full h-36 p-5 sm:p-6 bg-slate-950/65 border border-white/10 rounded-2xl text-white text-base leading-relaxed focus:outline-none focus:ring-1 focus:ring-cosmic-cyber/50 focus:border-cosmic-cyber/50 placeholder-gray-500 transition-all resize-none shadow-inner"></textarea>
+          
+          <div class="absolute bottom-4 left-4 flex gap-2">
+            <button onclick="clearQuery()" class="p-2 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer" title="تفريغ النص">
+              <i data-lucide="trash-2" class="w-5 h-5"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Action Button Wrapper -->
+        <div class="relative z-10 flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
+          
+          <div id="keyCheckWarning" class="text-xs text-cosmic-gold flex items-center gap-1.5 bg-yellow-900/10 border border-yellow-500/20 px-3.5 py-2 rounded-xl hidden">
+            <i data-lucide="alert-circle" class="w-4 h-4 flex-shrink-0 animate-pulse"></i>
+            <span>تنبيه: لم تقم بإدخال مفتاح الـ API للتشغيل. يرجى تهيئته لتتمكن من التوليد.</span>
+          </div>
+          <div class="flex-grow"></div>
+
+          <!-- Main Engine Launch Button -->
+          <button id="launchButton" onclick="triggerLawsEngine()" class="w-full sm:w-auto relative group overflow-hidden bg-gradient-to-r from-cosmic-cyber via-cosmic-ocean to-cosmic-emerald hover:from-purple-500 hover:via-blue-500 hover:to-emerald-500 text-white font-bold text-base py-4 px-10 rounded-2xl border border-white/20 shadow-[0_0_20px_rgba(168,85,247,0.15)] hover:shadow-[0_0_35px_rgba(168,85,247,0.45)] transition-all duration-500 hover:-translate-y-0.5 cursor-pointer select-none">
+            <span class="relative z-10 flex items-center justify-center gap-3">
+              <span>استخراج القوانين التكتيكية</span>
+              <i data-lucide="infinity" class="w-5 h-5"></i>
+            </span>
+            <div class="absolute inset-0 -translate-x-full group-hover:translate-x-0 bg-gradient-to-r from-white/10 to-transparent transition-transform duration-700"></div>
+          </button>
+        </div>
+
+        <!-- Card Glow Accents inside background -->
+        <div class="absolute top-0 right-0 w-32 h-32 bg-cosmic-cyber/10 rounded-full blur-3xl pointer-events-none z-0"></div>
+        <div class="absolute bottom-0 left-0 w-32 h-32 bg-cosmic-emerald/10 rounded-full blur-3xl pointer-events-none z-0"></div>
+      </section>
+
+      <!-- Processing/Loading Panel -->
+      <section id="processingPanel" class="hidden w-full flex flex-col items-center justify-center py-16 gap-6 transition-all duration-300">
+        
+        <!-- Deluxe Interlocking Rotating Geometric Mandala Loader -->
+        <div class="relative w-24 h-24 flex items-center justify-center">
+          <div class="absolute inset-0 border-2 border-dashed border-cosmic-cyber/70 rounded-full animate-spin"></div>
+          <div class="absolute inset-2 border border-cosmic-ocean animate-[spin_4s_linear_infinite]"></div>
+          <div class="absolute inset-2 border border-cosmic-emerald rotate-45 animate-[spin_6s_linear_infinite_reverse]"></div>
+          <div class="absolute inset-[36px] bg-gradient-to-tr from-cosmic-cyber to-cosmic-ocean rounded-full shadow-[0_0_20px_#A855F7] animate-pulse"></div>
+        </div>
+
+        <div class="text-center space-y-2">
+          <h3 class="text-lg font-bold tracking-wide animate-pulse bg-gradient-to-r from-cosmic-cyber via-cosmic-ocean to-cosmic-emerald bg-clip-text text-transparent">
+            جاري استحضار القوانين السننية وتدبر عمق المشكلة...
+          </h3>
+          <p id="loadingTip" class="text-xs text-gray-400 font-light max-w-md mx-auto leading-relaxed">
+            البحث عن الفلك السنني المتطابق مع قضيتك وصياغة الميدان المنهجي...
+          </p>
+        </div>
+      </section>
+
+      <!-- Dynamic Alert Container -->
+      <div id="errorAlert" class="hidden w-full max-w-4xl bg-red-950/35 border border-red-500/20 p-5 rounded-2xl flex items-start gap-4 animate-shake">
+        <div class="p-2.5 rounded-xl bg-red-500/10 text-red-400">
+          <i data-lucide="alert-octagon" class="w-6 h-6"></i>
+        </div>
+        <div class="space-y-1">
+          <h4 class="text-base font-bold text-red-200">حدث خطأ أثناء معالجة البيانات</h4>
+          <p id="errorMsg" class="text-sm text-red-400/90 leading-relaxed"></p>
+        </div>
+      </div>
+
+      <!-- Analysis Results Presentation Stage -->
+      <section id="resultsPanel" class="hidden w-full flex flex-col gap-8">
+        
+        <!-- Dynamic Header of output -->
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/5 pb-4 mr-1">
+          <div>
+            <h3 class="text-xl sm:text-2xl font-black text-transparent bg-clip-text bg-gradient-to-l from-white to-gray-200">
+              مخرجات الاستنباط المنهجي والسنني
+            </h3>
+            <p class="text-xs text-cosmic-emerald/80 tracking-wide mt-1">
+              تم صياغة المخرجات بدقة بناءً على المبادئ والمصادر والمقاصد القرآنية الكبرى.
+            </p>
+          </div>
+          <button onclick="scrollToInput()" class="flex items-center gap-2 text-xs px-4 py-2.5 rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-gray-300 hover:text-white transition cursor-pointer">
+            <i data-lucide="chevron-up" class="w-4 h-4"></i>
+            <span>إدخال قضية جديدة</span>
+          </button>
+        </div>
+
+        <!-- 4 Separated Dynamic Glow Cards Grid Layout -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 relative z-10">
+
+          <!-- Card 1: [تحليل الإحداثيات والمشكلة] -->
+          <div class="result-card p-6 sm:p-8 rounded-3xl liquid-glass-card flex flex-col gap-4 group relative overflow-hidden" id="cardSector1">
+            <div class="flex items-center justify-between w-full border-b border-white/5 pb-3">
+              <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-2xl bg-purple-500/10 border border-purple-500/30 text-cosmic-cyber">
+                  <i data-lucide="orbit" class="w-5.5 h-5.5"></i>
+                </div>
+                <h4 class="text-lg font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-l from-white via-gray-100 to-purple-100">
+                  تحليل الإحداثيات والمشكلة
+                </h4>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="speakSpeech(1)" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer" title="استمع للقسم">
+                  <i id="voiceIcon1" data-lucide="volume-2" class="w-4 h-4"></i>
+                </button>
+                <button onclick="copyContent(1)" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer" title="نسخ المحتوى">
+                  <i id="copyIcon1" data-lucide="copy" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="markdown-rendered card-content select-text" id="secContent1">
+              <!-- Rendered via parser -->
+            </div>
+            
+            <!-- Absolute background badge -->
+            <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-purple-500/5 rounded-full blur-2xl group-hover:bg-purple-500/15 transition-all"></div>
+          </div>
+
+          <!-- Card 2: [القانون الكوني الفعال] -->
+          <div class="result-card p-6 sm:p-8 rounded-3xl liquid-glass-card flex flex-col gap-4 group relative overflow-hidden" id="cardSector2">
+            <div class="flex items-center justify-between w-full border-b border-white/5 pb-3">
+              <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-cosmic-gold">
+                  <i data-lucide="book-open-check" class="w-5.5 h-5.5"></i>
+                </div>
+                <h4 class="text-lg font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-l from-white via-gray-100 to-amber-100">
+                  القانون الكوني الفعال (من الكتاب والسنة)
+                </h4>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="speakSpeech(2)" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer" title="استمع للقسم">
+                  <i id="voiceIcon2" data-lucide="volume-2" class="w-4 h-4"></i>
+                </button>
+                <button onclick="copyContent(2)" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer" title="نسخ المحتوى">
+                  <i id="copyIcon2" data-lucide="copy" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="markdown-rendered card-content select-text" id="secContent2">
+              <!-- Rendered via parser -->
+            </div>
+            
+            <!-- Absolute background badge -->
+            <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-amber-500/5 rounded-full blur-2xl group-hover:bg-amber-500/15 transition-all"></div>
+          </div>
+
+          <!-- Card 3: [منظومة المعادلات المنطقية] -->
+          <div class="result-card p-6 sm:p-8 rounded-3xl liquid-glass-card flex flex-col gap-4 group relative overflow-hidden" id="cardSector3">
+            <div class="flex items-center justify-between w-full border-b border-white/5 pb-3">
+              <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-2xl bg-blue-500/10 border border-blue-500/30 text-cosmic-ocean">
+                  <i data-lucide="milestone" class="w-5.5 h-5.5"></i>
+                </div>
+                <h4 class="text-lg font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-l from-white via-gray-100 to-blue-100">
+                  منظومة المعادلات المنطقية
+                </h4>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="speakSpeech(3)" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer" title="استمع للقسم">
+                  <i id="voiceIcon3" data-lucide="volume-2" class="w-4 h-4"></i>
+                </button>
+                <button onclick="copyContent(3)" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer" title="نسخ المحتوى">
+                  <i id="copyIcon3" data-lucide="copy" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="markdown-rendered card-content select-text" id="secContent3">
+              <!-- Rendered via parser -->
+            </div>
+            
+            <!-- Absolute background badge -->
+            <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl group-hover:bg-blue-500/15 transition-all"></div>
+          </div>
+
+          <!-- Section 4: [خطة الميدان التطبيقية والمصادر] -->
+          <div class="result-card p-6 sm:p-8 rounded-3xl liquid-glass-card flex flex-col gap-4 group relative overflow-hidden" id="cardSector4">
+            <div class="flex items-center justify-between w-full border-b border-white/5 pb-3">
+              <div class="flex items-center gap-3">
+                <div class="p-2.5 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-cosmic-emerald">
+                  <i data-lucide="scroll" class="w-5.5 h-5.5"></i>
+                </div>
+                <h4 class="text-lg font-black tracking-wide text-transparent bg-clip-text bg-gradient-to-l from-white via-gray-100 to-emerald-100">
+                  خطة الميدان التطبيقية والمصادر
+                </h4>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="speakSpeech(4)" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer" title="استمع للقسم">
+                  <i id="voiceIcon4" data-lucide="volume-2" class="w-4 h-4"></i>
+                </button>
+                <button onclick="copyContent(4)" class="p-2 rounded-xl bg-white/5 hover:bg-white/10 text-gray-400 hover:text-white transition cursor-pointer" title="نسخ المحتوى">
+                  <i id="copyIcon4" data-lucide="copy" class="w-4 h-4"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="markdown-rendered card-content select-text" id="secContent4">
+              <!-- Rendered via parser -->
+            </div>
+            
+            <!-- Absolute background badge -->
+            <div class="absolute -bottom-10 -left-10 w-32 h-32 bg-emerald-500/5 rounded-full blur-2xl group-hover:bg-emerald-500/15 transition-all"></div>
+          </div>
+
+        </div>
+        
+      </section>
+
+    </main>
+
+    <!-- Professional Footer -->
+    <footer class="w-full max-w-6xl mx-auto border-t border-white/5 pt-6 pb-2 text-center text-xs text-gray-500 leading-relaxed font-light mt-12 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div>
+        <p>© 2026 محرك القوانين الكونية. جميع الحقوق محفوظة لـ سليم الجعد.</p>
+        <p class="mt-0.5 text-[10px] text-gray-600">تم صياغته باحترافية وتناسق تام ليكون مرشداً منهجياً حياتياً متطوراً.</p>
+      </div>
+      <div class="flex gap-4 text-xs font-medium text-gray-400">
+        <a href="https://aistudio.google.com/" target="_blank" class="hover:text-cosmic-cyber transition">جوجل ستوديو</a>
+        <span class="text-gray-700">|</span>
+        <a href="#" onclick="alert('محرك مستقل يتأمل السنن الكونية ونظامها الدقيق في ضوء الآيات القرآنية ويقدم دراسة استشارية استراتيجية.'); return false;" class="hover:text-cosmic-ocean transition">حول المحرك</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- core Script code -->
+  <script>
+    // System Variables
+    let currentApiKey = '';
+    const arabicLetters = ['أ', 'ب', 'ت', 'ث', 'ج', 'ح', 'خ', 'د', 'ذ', 'ر', 'ز', 'س', 'ش', 'ص', 'ض', 'ط', 'ظ', 'ع', 'غ', 'ف', 'ق', 'ك', 'ل', 'م', 'ن', 'هـ', 'و', 'ي', 'ن', 'ق', 'ط', 'س'];
+    const canvas = document.getElementById('letterCanvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+    const particles = [];
+
+    // Loading Tips database to rotate during analysis
+    const loadingTips = [
+      "جاري مضاهاة معطيات المسألة بالسياقات السننية في القرآن الكريم...",
+      "البحث في فلك القصص القرآني لإيجاد الحدث التاريخي الأقرب لقصتك...",
+      "تفكيك الضغوط والمعضلات بالعودة إلى الموازين السلوكية الشريفة...",
+      "صياغة خطة الميدان الإجرائية لتكون تكتيكاً حياتياً ملموساً ونشطاً...",
+      "توثيق الآيات والمصادر بدقة متناهية وإيجاد رقم السورة والآيات البينات...",
+      "تهيئة اللوحة وتطبيق أنماط الزجاج السائل لعرض مخرجات التدبر المعرفي..."
+    ];
+    let tipIntervalId = null;
+
+    // Speech Synthesis Variables
+    let activeSpeakingId = null;
+    let currentUtterance = null;
+    const cleanSectionTexts = {};
+
+    // 1. Initialize Application
+    window.addEventListener('DOMContentLoaded', () => {
+      // Setup Lucide Icons
+      lucide.createIcons();
+
+      // Load Key if exits in local storage
+      const savedKey = localStorage.getItem('gemini_api_key');
+      if (savedKey) {
+        currentApiKey = savedKey;
+        document.getElementById('apiKeyInput').value = savedKey;
+        updateKeyStatusBadge(true);
+      } else {
+        updateKeyStatusBadge(false);
+        // Show panel proactively if no key saved
+        toggleConfigPanel();
+      }
+
+      // Initialize Floating Letter Canvas
+      initCanvasParticles();
+      animateCanvas();
+    });
+
+    // Handle App resizing cleanly
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    // 2. Canvas Animation Core Particle Logic
+    class Particle {
+      constructor() {
+        this.reset();
+        this.y = Math.random() * height; // Distribute vertically initially
+      }
+      reset() {
+        this.x = Math.random() * width;
+        this.y = height + Math.random() * 80;
+        this.letter = arabicLetters[Math.floor(Math.random() * arabicLetters.length)];
+        this.size = Math.random() * 16 + 12; // Beautiful 12px to 28px
+        this.speed = Math.random() * 0.45 + 0.15;
+        this.opacity = Math.random() * 0.15 + 0.04;
+        this.angle = Math.random() * Math.PI * 2;
+        this.spinSpeed = (Math.random() - 0.5) * 0.005;
+
+        // Choose from cyber spiritual palette colors
+        const colors = [
+          '168, 85, 247', // purple
+          '59, 130, 246', // ocean blue
+          '16, 185, 129', // emerald green
+          '245, 158, 11'   // gold
+        ];
+        this.colorRGB = colors[Math.floor(Math.random() * colors.length)];
+      }
+      update() {
+        this.y -= this.speed;
+        this.angle += this.spinSpeed;
+        if (this.y < -40) {
+          this.reset();
+        }
+      }
+      draw() {
+        ctx.save();
+        ctx.translate(this.x, this.y);
+        ctx.rotate(this.angle);
+        ctx.font = `${this.size}px 'Cairo', 'Amiri', sans-serif`;
+        ctx.fillStyle = `rgba(${this.colorRGB}, ${this.opacity})`;
+        ctx.fillText(this.letter, 0, 0);
+        ctx.restore();
+      }
+    }
+
+    function initCanvasParticles() {
+      const particleDensity = Math.min(80, Math.floor((width * height) / 28000));
+      for (let i = 0; i < particleDensity; i++) {
+        particles.push(new Particle());
+      }
+    }
+
+    function animateCanvas() {
+      ctx.clearRect(0, 0, width, height);
+      for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+      }
+      requestAnimationFrame(animateCanvas);
+    }
+
+    // 3. Page Utilities and UI Interactions
+    function toggleConfigPanel() {
+      const panel = document.getElementById('configPanel');
+      panel.classList.toggle('hidden');
+    }
+
+    function toggleApiKeyVisibility() {
+      const input = document.getElementById('apiKeyInput');
+      const eyeIcon = document.getElementById('eyeIcon');
+      if (input.type === 'password') {
+        input.type = 'text';
+        eyeIcon.setAttribute('data-lucide', 'eye-off');
+      } else {
+        input.type = 'password';
+        eyeIcon.setAttribute('data-lucide', 'eye');
+      }
+      lucide.createIcons();
+    }
+
+    function saveApiKey() {
+      const keyVal = document.getElementById('apiKeyInput').value.trim();
+      if (keyVal) {
+        currentApiKey = keyVal;
+        localStorage.setItem('gemini_api_key', keyVal);
+        updateKeyStatusBadge(true);
+        toggleConfigPanel();
+        document.getElementById('keyCheckWarning').classList.add('hidden');
+      } else {
+        currentApiKey = '';
+        localStorage.removeItem('gemini_api_key');
+        updateKeyStatusBadge(false);
+        alert('تمت إزالة المفتاح الحالي.');
+      }
+    }
+
+    function updateKeyStatusBadge(isConfigured) {
+      const badge = document.getElementById('keyStatusBadge');
+      if (isConfigured) {
+        badge.className = "w-2.5 h-2.5 rounded-full bg-cosmic-emerald shadow-[0_0_8px_#10B981]";
+      } else {
+        badge.className = "w-2.5 h-2.5 rounded-full bg-red-400 shadow-[0_0_8px_rgba(248,113,113,0.7)]";
+      }
+    }
+
+    function prefillQuery(btn) {
+      document.getElementById('problemQuery').value = btn.innerText.trim();
+      scrollToInput();
+    }
+
+    function clearQuery() {
+      document.getElementById('problemQuery').value = '';
+    }
+
+    function scrollToInput() {
+      document.getElementById('problemQuery').scrollIntoView({ behavior: 'smooth' });
+      document.getElementById('problemQuery').focus();
+    }
+
+    function startRotationalTips() {
+      const tipContainer = document.getElementById('loadingTip');
+      let index = 0;
+      tipIntervalId = setInterval(() => {
+        index = (index + 1) % loadingTips.length;
+        tipContainer.classList.add('opacity-0');
+        setTimeout(() => {
+          tipContainer.innerText = loadingTips[index];
+          tipContainer.classList.remove('opacity-0');
+        }, 300);
+      }, 4000);
+    }
+
+    function stopRotationalTips() {
+      if (tipIntervalId) {
+        clearInterval(tipIntervalId);
+        tipIntervalId = null;
+      }
+    }
+
+    // 4. API Request and Quranic Core Business logic
+    async function triggerLawsEngine() {
+      const queryText = document.getElementById('problemQuery').value.trim();
+      const warningAlert = document.getElementById('keyCheckWarning');
+      const errorAlert = document.getElementById('errorAlert');
+      const resultsPanel = document.getElementById('resultsPanel');
+      const processingPanel = document.getElementById('processingPanel');
+      const launchButton = document.getElementById('launchButton');
+
+      // Check Key
+      if (!currentApiKey) {
+        warningAlert.classList.remove('hidden');
+        warningAlert.scrollIntoView({ behavior: 'smooth' });
+        toggleConfigPanel();
+        return;
+      } else {
+        warningAlert.classList.add('hidden');
+      }
+
+      // Check Query
+      if (!queryText) {
+        alert('فضلاً، يرجى كتابة ملامح قضيتك أو اختيار أحد النماذج المتاحة أولاً لتتمكّن من استخراج القوانين.');
+        return;
+      }
+
+      // Setup State for loading
+      errorAlert.classList.add('hidden');
+      resultsPanel.classList.add('hidden');
+      processingPanel.classList.remove('hidden');
+      launchButton.disabled = true;
+      launchButton.classList.add('opacity-50', 'pointer-events-none');
+      processingPanel.scrollIntoView({ behavior: 'smooth' });
+
+      // Start loading texts rotation
+      startRotationalTips();
+
+      try {
+        const responseText = await queryGeminiAPI(queryText, currentApiKey);
+        
+        // Parse the markdown sectors perfectly
+        const parsedData = extractSections(responseText);
+        
+        // Render sections inside DOM structure
+        renderSectorsInCards(parsedData);
+
+        // Turn off loading layers
+        processingPanel.classList.add('hidden');
+        stopRotationalTips();
+        resultsPanel.classList.remove('hidden');
+        
+        // Staggered smooth fade-in and slide-up animations of the final cards
+        triggerStaggeredFadeIn();
+
+        resultsPanel.scrollIntoView({ behavior: 'smooth' });
+
+      } catch (err) {
+        console.error(err);
+        stopRotationalTips();
+        processingPanel.classList.add('hidden');
+        document.getElementById('errorMsg').innerText = err.message || 'فشلت معالجة الطلب، يرجى التحقق من صحة مفتاح الـ API والاتصال بالشبكة.';
+        errorAlert.classList.remove('hidden');
+        errorAlert.scrollIntoView({ behavior: 'smooth' });
+      } finally {
+        launchButton.disabled = false;
+        launchButton.classList.remove('opacity-50', 'pointer-events-none');
+      }
+    }
+
+    async function queryGeminiAPI(queryText, apiKey) {
+      // Using gemini-3.5-flash as specified in the model guidance rules (Basic Text Tasks, latest and fastest output)
+      const endpoint = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`;
+
+      const systemInstruction = `أنت المحرك المنطقي الهجين "محرك القوانين الكونية" (Universal Quranic & Sunnah Logic Engine). مهمتك الاستراتيجية هي استقبال مشاكل العملاء الحياتية، الإدارية، النفسية، أو التقنية، وتحليلها بعمق، ثم استخراج القوانين الحاكمة لها من القرآن الكريم والسنة النبوية الصحيحة، وتحويلها إلى "معادلات منطقية وصيغ رياضية تكتيكية" تفرز حلولاً تنفيذية صارمة.
+
+تتبع دائماً بروتوكول المعالجة المكون من 4 مراحل متتالية لإخراج النتيجة للعميل باللغة العربية الفصحى وبتنسيق Markdown عالي التنظيم، ويجب تقسيم المخرجات بدقة وفصل كل قسم من الأقسام الأربعة باستخدام العلامات الفاصلة التالية تماماً لتسهيل معالجتها وفصلها برمجياً:
+
+===SECTION_1===
+### [تحليل الإحداثيات والمشكلة]
+تفكيك مشكلة العميل إلى مدخلات أساسية وثغرات سياقية.
+
+===SECTION_2===
+### [القانون الكوني الفعال (من الكتاب والسنة)]
+استخراج القانون الإلهي أو السنّة الكونية المباشرة مع ذكر النصوص بدقة.
+
+===SECTION_3===
+### [منظومة المعادلات المنطقية]
+صياغة المشكلة والحل على شكل "معادلات منطقية رياضية عقلانية" باستخدام تنسيق LaTeX لتبسيط المفاهيم (مثل: متغيرات تؤدي إلى نتيجة حتمية).
+
+===SECTION_4===
+### [خطة الميدان التطبيقية والمصادر]
+4-5 خطوات تكتيكية عملية يمكن للعميل تنفيذها اليوم، مع ذكر أسماء السور، الآيات، أو تخريج الأحاديث بدقة كاملة كمصادر موثوقة.`;
+
+      const requestPayload = {
+        contents: [
+          {
+            parts: [
+              {
+                text: `القضية المطلوب تفكيكها سننياً واستبصارها هي: "${queryText}"`
+              }
+            ]
+          }
+        ],
+        systemInstruction: {
+          parts: [
+            {
+              text: systemInstruction
+            }
+          ]
+        },
+        generationConfig: {
+          temperature: 0.6,
+          maxOutputTokens: 4096
+        }
+      };
+
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestPayload)
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        const errorMessage = errorData?.error?.message || `خطأ في الاتصال بخادم الـ API (الرمز ${response.status})`;
+        throw new Error(errorMessage);
+      }
+
+      const resData = await response.json();
+      const textOutput = resData?.candidates?.[0]?.content?.parts?.[0]?.text;
+      
+      if (!textOutput) {
+        throw new Error("لم ترجع خوارزمية الذكاء الاصطناعي بنص صحيح، يرجى إعادة المحاولة.");
+      }
+
+      return textOutput;
+    }
+
+    // 5. Advanced Markdown and Delimiter Chunk Parser
+    function extractSections(text) {
+      let s1 = '', s2 = '', s3 = '', s4 = '';
+
+      // Pattern matcher for precise delimiter splits
+      const p1 = text.split(/===SECTION_1===/i);
+      if (p1.length > 1) {
+        const p2 = p1[1].split(/===SECTION_2===/i);
+        s1 = p2[0];
+        if (p2.length > 1) {
+          const p3 = p2[1].split(/===SECTION_3===/i);
+          s2 = p3[0];
+          if (p3.length > 1) {
+            const p4 = p3[1].split(/===SECTION_4===/i);
+            s3 = p4[0];
+            s4 = p4[1] || '';
+          } else {
+            s3 = p3[1];
+          }
+        } else {
+          s2 = p2[1];
+        }
+      } else {
+        // Absolute Fallback Split if delimiters are ignored by older model fallbacks
+        // Try to split on common indicators
+        const headers = [
+          /### \[القانون الكوني الفعال\]/i,
+          /### \[الإسقاط والتحليل القصصي\]/i,
+          /### \[خطة الميدان التطبيقية\]/i,
+          /### \[المصادر والآيات\]/i
+        ];
+        
+        let foundSectors = [];
+        let r1 = text.split(headers[1]);
+        if (r1.length > 1) {
+          s1 = r1[0].replace(headers[0], '');
+          let r2 = r1[1].split(headers[2]);
+          if (r2.length > 1) {
+            s2 = r2[0];
+            let r3 = r2[1].split(headers[3]);
+            if (r3.length > 1) {
+              s3 = r3[0];
+              s4 = r3[1];
+            } else {
+              s3 = r3[0];
+            }
+          } else {
+            s2 = r2[0];
+          }
+        } else {
+          s1 = text;
+        }
+      }
+
+      return {
+        s1: cleanHeadersAndMarkdown(s1),
+        s2: cleanHeadersAndMarkdown(s2),
+        s3: cleanHeadersAndMarkdown(s3),
+        s4: cleanHeadersAndMarkdown(s4)
+      };
+    }
+
+    function cleanHeadersAndMarkdown(content) {
+      if (!content) return '';
+      let cleaned = content.trim();
+      // Remove possible repeating markdown headers
+      cleaned = cleaned.replace(/^###\s*\[?تحليل الإحداثيات والمشكلة\]?\s*/i, '');
+      cleaned = cleaned.replace(/^###\s*\[?القانون الكوني الفعال\s*(?:\(من الكتاب والسنة\))?\]?\s*/i, '');
+      cleaned = cleaned.replace(/^###\s*\[?منظومة المعادلات المنطقية\]?\s*/i, '');
+      cleaned = cleaned.replace(/^###\s*\[?خطة الميدان التطبيقية والمصادر\]?\s*/i, '');
+      cleaned = cleaned.replace(/^#+\s+/i, ''); // Strip standard markdown heading symbols representing titles
+      return cleaned.trim();
+    }
+
+    // 6. Final Render and Micro-interactions Configuration
+    function renderSectorsInCards(data) {
+      // Parse markdown to HTML
+      const htmlSec1 = marked.parse(data.s1 || 'لم يتوفر تحليل لهذا القسم.');
+      const htmlSec2 = marked.parse(data.s2 || 'لم يتوفر تحليل لهذا القسم.');
+      const htmlSec3 = marked.parse(data.s3 || 'لم يتوفر تحليل لهذا القسم.');
+      let htmlSec4 = marked.parse(data.s4 || 'لم يتوفر تحليل لهذا القسم.');
+
+      // Classic Verse Highlighter algorithm
+      htmlSec4 = highlightQuranicVerses(htmlSec4);
+
+      // Populate text database for speech synthesis
+      cleanSectionTexts[1] = stripMarkdownToPlainText(data.s1);
+      cleanSectionTexts[2] = stripMarkdownToPlainText(data.s2);
+      cleanSectionTexts[3] = stripMarkdownToPlainText(data.s3);
+      cleanSectionTexts[4] = stripMarkdownToPlainText(data.s4);
+
+      // Write content into DOM
+      document.getElementById('secContent1').innerHTML = htmlSec1;
+      document.getElementById('secContent2').innerHTML = htmlSec2;
+      document.getElementById('secContent3').innerHTML = htmlSec3;
+      document.getElementById('secContent4').innerHTML = htmlSec4;
+    }
+
+    function highlightQuranicVerses(html) {
+      // Regex pattern to look for Quranic verses typically enclosed in custom quotes or brackets e.g., "..." or «...»
+      // Models often write verses using « » or ( ) or inside specific quotes. Let's make sure they display beautifully.
+      let parsedHtml = html;
+      
+      // Highlight classic arabic brackets used for quranic quotes "«...»"
+      parsedHtml = parsedHtml.replace(/«([^»]+)»/g, '<span class="quran-verse">«$1»</span>');
+      
+      // Highlight text blocks that contain typical Surah markers or references like (البقرة: 155)
+      parsedHtml = parsedHtml.replace(/(\([^)]+:\s*\d+[^)]*\))/g, '<span class="text-cosmic-emerald font-semibold mx-1">$1</span>');
+
+      return parsedHtml;
+    }
+
+    function triggerStaggeredFadeIn() {
+      const cards = document.querySelectorAll('.result-card');
+      cards.forEach((card) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(30px)';
+        card.style.transition = 'all 0.8s cubic-bezier(0.16, 1, 0.3, 1)';
+      });
+
+      // Quick delay before staggering
+      setTimeout(() => {
+        cards.forEach((card, index) => {
+          setTimeout(() => {
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+          }, index * 200);
+        });
+      }, 80);
+    }
+
+    // 7. Text-To-Speech Pronunciation Module
+    function speakSpeech(sectionId) {
+      const textToSpeak = cleanSectionTexts[sectionId];
+      if (!textToSpeak) return;
+
+      if (activeSpeakingId !== null) {
+        window.speechSynthesis.cancel();
+        
+        // Reset old icon
+        const oldBtnIcon = document.getElementById(`voiceIcon${activeSpeakingId}`);
+        if (oldBtnIcon) {
+          oldBtnIcon.setAttribute('data-lucide', 'volume-2');
+          lucide.createIcons();
+        }
+
+        if (activeSpeakingId === sectionId) {
+          activeSpeakingId = null;
+          return;
+        }
+      }
+
+      currentUtterance = new SpeechSynthesisUtterance(textToSpeak);
+      currentUtterance.lang = 'ar-SA';
+      currentUtterance.rate = 0.90; // spiritual tempo
+
+      currentUtterance.onend = () => {
+        const btnIcon = document.getElementById(`voiceIcon${sectionId}`);
+        if (btnIcon) {
+          btnIcon.setAttribute('data-lucide', 'volume-2');
+          lucide.createIcons();
+        }
+        activeSpeakingId = null;
+      };
+
+      currentUtterance.onerror = () => {
+        const btnIcon = document.getElementById(`voiceIcon${sectionId}`);
+        if (btnIcon) {
+          btnIcon.setAttribute('data-lucide', 'volume-2');
+          lucide.createIcons();
+        }
+        activeSpeakingId = null;
+      };
+
+      window.speechSynthesis.speak(currentUtterance);
+      activeSpeakingId = sectionId;
+
+      // Update Active Icon to pause/square or visual state
+      const newBtnIcon = document.getElementById(`voiceIcon${sectionId}`);
+      if (newBtnIcon) {
+        newBtnIcon.setAttribute('data-lucide', 'square');
+        lucide.createIcons();
+      }
+    }
+
+    // Helpers
+    function stripMarkdownToPlainText(md) {
+      if (!md) return '';
+      return md
+        .replace(/#+\s+/g, '') // remove headers
+        .replace(/\*\*([^*]+)\*\*/g, '$1') // remove bold
+        .replace(/\*([^*]+)\*/g, '$1') // remove italics
+        .replace(/`([^`]+)`/g, '$1') // remove inline code
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1') // remove links
+        .replace(/[-*+]\s+/g, '') // remove list items bullets
+        .replace(/^\s*\d+\.\s+/gm, '') // remove numbered lists markers
+        .trim();
+    }
+
+    function copyContent(sectionId) {
+      const rawText = cleanSectionTexts[sectionId];
+      if (!rawText) return;
+
+      navigator.clipboard.writeText(rawText).then(() => {
+        const copyIcon = document.getElementById(`copyIcon${sectionId}`);
+        copyIcon.setAttribute('data-lucide', 'check');
+        copyIcon.classList.add('text-cosmic-emerald');
+        lucide.createIcons();
+
+        setTimeout(() => {
+          copyIcon.setAttribute('data-lucide', 'copy');
+          copyIcon.classList.remove('text-cosmic-emerald');
+          lucide.createIcons();
+        }, 2000);
+      }).catch(err => {
+        console.error('فشل نسخ المحتوى: ', err);
+      });
+    }
+  </script>
+</body>
+</html>
