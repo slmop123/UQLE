@@ -90,6 +90,14 @@
       animation: flowGradient 6s linear infinite;
     }
 
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
     /* Extreme Liquid Glass Effect */
     .liquid-glass {
       background: rgba(13, 19, 33, 0.65);
@@ -157,6 +165,53 @@
   </style>
 </head>
 <body class="relative min-h-screen bg-cosmic-void text-gray-100 font-sans overflow-x-hidden antialiased">
+
+  <!-- Disclaimer Overlay Modal -->
+  <div id="disclaimerModal" class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-cosmic-void/80 backdrop-blur-xl transition-all duration-500 hidden">
+    <div class="w-full max-w-xl liquid-glass rounded-3xl p-6 sm:p-8 border border-white/10 shadow-[0_0_50px_rgba(245,158,11,0.15)] relative overflow-hidden animate-fadeIn">
+      <!-- Glow effect inside -->
+      <div class="absolute -top-12 -right-12 w-32 h-32 bg-cosmic-gold/10 rounded-full blur-2xl"></div>
+      
+      <!-- Warning Header -->
+      <div class="flex items-center gap-4 border-b border-white/5 pb-4 mb-5 relative z-10">
+        <div class="p-3 rounded-2xl bg-cosmic-gold/10 border border-cosmic-gold/30 text-cosmic-gold shadow-[0_0_15px_rgba(245,158,11,0.2)]">
+          <i data-lucide="shield-alert" class="w-8 h-8 animate-pulse"></i>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold text-white tracking-wide">تنبيه وميثاق الاستخدام المعرفيّ</h3>
+          <p class="text-xs text-cosmic-gold mt-0.5 font-medium">إخلاء مسؤولية توعوي هام</p>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="space-y-4 text-sm leading-relaxed text-gray-300 relative z-10 text-right">
+        <p>
+          أخي الكريم، إن هذا التطبيق يمثّل <strong>مبادرة تقنية استكشافية مستقلة</strong> تسعى لتسهيل تدبّر القوانين الكونية واستيعاب السنن الإلهية في ضوء الآيات والسياقات الشرعية باستخدام <strong>الذكاء الاصطناعي التوليدي</strong>.
+        </p>
+        <div class="p-4 rounded-2xl bg-yellow-950/25 border border-cosmic-gold/20 space-y-2">
+          <p class="text-cosmic-gold font-bold flex items-center gap-1.5 text-xs">
+            <i data-lucide="info" class="w-4 h-4"></i>
+            <span>توجيهات تشغيلية هامة:</span>
+          </p>
+          <ul class="list-disc list-inside space-y-1.5 text-xs mr-3 text-gray-200">
+            <li><strong>احتمالية وجود أخطاء:</strong> من الممكن تماماً أن يُخطئ نظام الذكاء الاصطناعي، أو يعرض معلومات غير دقيقة أو يدمج سياقات بطريقة غير مأثورة.</li>
+            <li><strong>التحقق من المصادر:</strong> تقع على عاتق المستفيد كامل المسؤولية في مراجعة وتدقيق الآيات وتخريج الأحاديث بدقة عبر كتب التفسير ومصادر السنة المعتمدة.</li>
+            <li><strong>دافع الاستخدام:</strong> هذا المحرك هو <strong>أداة مساعدة ومنشط فكري</strong> للتأمل والتدبر فقط، وليس مصدراً للإفتاء أو مرجعاً تشريعياً مستقلاً.</li>
+          </ul>
+        </div>
+        <p class="text-xs text-gray-400">
+          بالضغط على زر المتابعة أدناه، فإنك تؤكد علمك وفهمك لطبيعة البرنامج وتعهدك بالاستفادة منه كمرشد تفكري ملهم يخضع للتدقيق البشري الدائم.
+        </p>
+      </div>
+
+      <!-- Action Button -->
+      <div class="mt-6 flex justify-end relative z-10">
+        <button onclick="dismissDisclaimer()" class="w-full sm:w-auto px-8 py-3.5 rounded-xl bg-gradient-to-r from-cosmic-gold via-amber-500 to-amber-600 hover:from-amber-600 hover:to-cosmic-gold text-slate-950 font-bold text-sm tracking-wide shadow-[0_0_20px_rgba(245,158,11,0.2)] hover:shadow-[0_0_25px_rgba(245,158,11,0.4)] transition-all duration-300 transform hover:-translate-y-0.5 cursor-pointer select-none">
+          أفهم ذلك وأوافق على المتابعة
+        </button>
+      </div>
+    </div>
+  </div>
 
   <!-- Interactive Floating Canvas Background -->
   <canvas id="letterCanvas" class="fixed inset-0 pointer-events-none z-10 w-full h-full opacity-60"></canvas>
@@ -495,7 +550,7 @@
       <div class="flex gap-4 text-xs font-medium text-gray-400">
         <a href="https://aistudio.google.com/" target="_blank" class="hover:text-cosmic-cyber transition">جوجل ستوديو</a>
         <span class="text-gray-700">|</span>
-        <a href="#" onclick="alert('محرك مستقل يتأمل السنن الكونية ونظامها الدقيق في ضوء الآيات القرآنية ويقدم دراسة استشارية استراتيجية.'); return false;" class="hover:text-cosmic-ocean transition">حول المحرك</a>
+        <a href="#" onclick="document.getElementById('disclaimerModal').classList.remove('hidden'); return false;" class="hover:text-cosmic-ocean transition px-1">حول المحرك وميثاق الاستخدام</a>
       </div>
     </footer>
 
@@ -533,6 +588,12 @@
       // Setup Lucide Icons
       lucide.createIcons();
 
+      // Check disclaimer
+      const disclaimerAccepted = localStorage.getItem('quranic_engine_disclaimer_accepted');
+      if (!disclaimerAccepted) {
+        document.getElementById('disclaimerModal').classList.remove('hidden');
+      }
+
       // Load Key if exits in local storage
       const savedKey = localStorage.getItem('gemini_api_key');
       if (savedKey) {
@@ -541,8 +602,10 @@
         updateKeyStatusBadge(true);
       } else {
         updateKeyStatusBadge(false);
-        // Show panel proactively if no key saved
-        toggleConfigPanel();
+        // Show panel proactively if no key saved and disclaimer accepted
+        if (disclaimerAccepted) {
+          toggleConfigPanel();
+        }
       }
 
       // Initialize Floating Letter Canvas
@@ -619,6 +682,16 @@
     function toggleConfigPanel() {
       const panel = document.getElementById('configPanel');
       panel.classList.toggle('hidden');
+    }
+
+    function dismissDisclaimer() {
+      localStorage.setItem('quranic_engine_disclaimer_accepted', 'true');
+      document.getElementById('disclaimerModal').classList.add('hidden');
+      
+      // Proactively prompt API Key setup if none exists
+      if (!currentApiKey) {
+        toggleConfigPanel();
+      }
     }
 
     function toggleApiKeyVisibility() {
